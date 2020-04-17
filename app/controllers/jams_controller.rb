@@ -1,5 +1,5 @@
 class JamsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authorize
   before_action :set_jam, only: [:show, :edit, :update, :destroy]
 
   # GET /jams
@@ -72,5 +72,9 @@ class JamsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def jam_params
       params.require(:jam).permit(:name, :user_id)
+    end
+
+    def authorize
+      redirect_to home_index_path unless current_user.admin?
     end
 end
